@@ -1,11 +1,10 @@
 class Armor {
     public enum Type {PERISAI, ZIRAH}
 
-    private Type type;
+    protected Type type;
     private String name;
     private int shield;
 
-    // Konstruktor untuk inisialisasi armor berdasarkan tipe
     public Armor(Type type) {
         this.type = type;
         switch (type) {
@@ -20,12 +19,10 @@ class Armor {
         }
     }
 
-    // Getter untuk nama armor
     public String getName() {
         return name;
     }
 
-    // Getter untuk shield yang diberikan oleh armor
     public int getShield() {
         return shield;
     }
