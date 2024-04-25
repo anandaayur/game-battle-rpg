@@ -1,11 +1,10 @@
 class Weapon {
     public enum Type {PEDANG, PANAH}
 
-    private Type type;
+    protected Type type;
     private String name;
     private int damage;
 
-    // Konstruktor untuk inisialisasi senjata berdasarkan tipe
     public Weapon(Type type) {
         this.type = type;
         switch (type) {
@@ -20,12 +19,10 @@ class Weapon {
         }
     }
 
-    // Getter untuk nama senjata
     public String getName() {
         return name;
     }
 
-    // Getter untuk damage yang disebabkan oleh senjata
     public int getDamage() {
         return damage;
     }
