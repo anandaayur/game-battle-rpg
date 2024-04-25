@@ -3,17 +3,33 @@ import java.util.Random;
 class Foe extends Character {
     private int magicDamage;
     private int magicUlti;
+    private int potionDamage;
+    private int elixirDamage;
+    private int etherDamage;
+    private int MP;
 
-    public Foe(String nama, String ras, int level, int magicDamage, int magicUlti) {
+    public Foe(String nama, String ras, int level, int magicDamage, int magicUlti, int potionDamage, int elixirDamage) {
         super(nama, ras, level);
         this.magicDamage = magicDamage;
         this.magicUlti = magicUlti;
+        this.MP = MP;
+        this.potionDamage = potionDamage;
+        this.elixirDamage = elixirDamage;
     }
 
     @Override
     public void attack(Character target) {
         Random random = new Random();
-        int attackChoice = random.nextInt(3); // 0: Normal Attack, 1: Potion, 2: Elixir
+
+        int action = new Random().nextInt(2);
+
+        if (action == 0) {
+            super.attack(target);
+        } else {
+            useItem(target);
+        }
+
+        int attackChoice = random.nextInt(3);
 
         switch (attackChoice) {
             case 0:
@@ -26,6 +42,27 @@ class Foe extends Character {
                 useMagicUlti(target);
                 break;
         }
+        kurangiMP();
+
+         int itemChoice = random.nextInt(3); 
+         switch (itemChoice) {
+         case 0:
+                target.HP -= potionDamage;
+                System.out.println(nama + " menggunakan Potion dan " + nama + " dan HP nya bertambah sebanyak " + potionDamage + "!");
+                break;
+            case 1:
+                target.HP -= elixirDamage;
+                System.out.println(nama + " menggunakan Elixir dan " + nama + " dan HP nya bertambah sebanyak " + elixirDamage + "!");
+                break;
+            case 2:
+                target.HP -= etherDamage;
+                System.out.println(nama + " menggunakan Ether dan " + nama + " dan HP nya bertambah sebanyak " + etherDamage + "!");
+                break;
+            default:
+                System.out.println("Foe melakukan serangan normal.");
+                
+        }
+
     }
 
     private void normalAttack(Character target) {
@@ -41,6 +78,7 @@ class Foe extends Character {
     public void defend() {
         // Implementasi perilaku bertahan Foe
         System.out.println(nama + " sedang bertahan!");
+        kurangiMP();
 
     }
 
@@ -48,5 +86,28 @@ class Foe extends Character {
         target.HP -= magicUlti;
         System.out
                 .println(nama + " menggunakan Ulti dan " + target.nama + " menerima damage sebesar " + magicUlti + "!");
+    }
+
+    private void kurangiMP() {
+        int biayaAksi = 30;
+        MP -= biayaAksi;
+        System.out.println(
+                nama + " menggunakan " + biayaAksi + " MP untuk melakukan aksi. MP " + nama + " sekarang: " + MP);
+    }
+
+    protected void usePotion() {
+        HP += potionDamage;
+        System.out.println(nama + " menggunakan Potion dan meningkatkan HP sebesar " + potionDamage + "!");
+    }
+
+    protected void useElixir() {
+        HP += elixirDamage; 
+        MP += elixirDamage; 
+        System.out.println(nama + " menggunakan Elixir dan meningkatkan HP dan MP sebesar " + elixirDamage + "!");
+    }
+
+    protected void useEther() {
+        MP += elixirDamage;
+        System.out.println(nama + " menggunakan Ether dan meningkatkan MP sebesar " + elixirDamage + "!");
     }
 }
